@@ -69,4 +69,16 @@
             <argument name="resourceModel" xsi:type="string">Zero\Blog\Model\ResourceModel\Author</argument>
         </arguments>
     </virtualType>
+    <!-- Global, not frontend: the search box (frontend) and zeroSearchSuggest (GraphQL) share the sources. -->
+    <!-- Zero_Search (when enabled): posts it finds. -->
+    <type name="Zero\Search\Model\Sources">
+        <arguments>
+            <argument name="sources" xsi:type="array">
+                <item name="posts" xsi:type="array">
+                    <item name="source" xsi:type="object">Zero\Blog\Model\Search\PostSource</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>

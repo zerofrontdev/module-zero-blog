@@ -1,8 +1,10 @@
 # Zero_Blog
 
-Zero for Magento Open Source: a blog: posts written in the Zero CMS editor, categories, tags, authors, products in posts, comments.
-
-More in the theme's `docs/blog.md` (https://zerofront.dev/docs).
+A blog for Magento Open Source on Zero: posts with a Zero CMS body,
+categories, tags, authors, moderated comments, an RSS feed, posts on
+product pages. Admin under Content > Blog; settings under Stores >
+Configuration > Zero > Blog. Pages: `/blog`, `/blog/<post>`,
+`/blog/category/<key>`, `/blog/tag/<key>`, `/blog/author/<key>`.
 
 ## Install
 
