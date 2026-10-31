@@ -19,6 +19,14 @@ use Psr\Log\LoggerInterface;
  */
 class Grid extends SearchResult
 {
+    /**
+     * Comment columns the grid can filter on, qualified so the joined post table cannot make them ambiguous.
+     */
+    public const COMMENT_COLUMNS = [
+        'comment_id', 'post_id', 'store_id', 'customer_id', 'author_name', 'author_email',
+        'content', 'status', 'created_at',
+    ];
+
     public function __construct(
         EntityFactoryInterface $entityFactory,
         LoggerInterface $logger,
@@ -41,9 +49,11 @@ class Grid extends SearchResult
             'post.post_id = main_table.post_id',
             ['post_title' => 'post.title']
         );
-        $this->addFilterToMap('post_title', 'post.title')
-            ->addFilterToMap('created_at', 'main_table.created_at')
-            ->addFilterToMap('status', 'main_table.status');
+        // zero_blog_post shares post_id and created_at with the comment table.
+        foreach (self::COMMENT_COLUMNS as $column) {
+            $this->addFilterToMap($column, 'main_table.' . $column);
+        }
+        $this->addFilterToMap('post_title', 'post.title');
 
         return $this;
     }

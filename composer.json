@@ -2,7 +2,7 @@
     "name": "zerofront/module-zero-blog",
     "description": "Zero for Magento Open Source: a blog: posts written in the Zero CMS editor, categories, tags, authors, products in posts, comments.",
     "type": "magento2-module",
-    "version": "1.3.5",
+    "version": "1.3.6",
     "license": [
         "OSL-3.0",
         "AFL-3.0"
@@ -27,14 +27,15 @@
         "magento/module-catalog": "*",
         "magento/module-cms": "*",
         "magento/module-config": "*",
+        "magento/module-cron": "*",
         "magento/module-customer": "*",
         "magento/module-sitemap": "*",
         "magento/module-store": "*",
         "magento/module-ui": "*",
         "magento/module-url-rewrite": "*",
-        "zerofront/module-zero-core": "^1.3",
-        "zerofront/module-zero-banner": "^1.3",
-        "zerofront/module-zero-cms": "^1.3"
+        "zerofront/module-zero-core": "^1.3.6",
+        "zerofront/module-zero-banner": "^1.3.6",
+        "zerofront/module-zero-cms": "^1.3.6"
     },
     "replace": {
         "fixstacks/module-zero-blog": "self.version"

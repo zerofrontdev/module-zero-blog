@@ -19,6 +19,14 @@ use Psr\Log\LoggerInterface;
  */
 class Grid extends SearchResult
 {
+    /**
+     * Post columns the grid can filter on, qualified so a joined table cannot make them ambiguous.
+     */
+    public const POST_COLUMNS = [
+        'post_id', 'title', 'url_key', 'author_id', 'is_active', 'published_at', 'image',
+        'meta_title', 'meta_description', 'created_at', 'updated_at',
+    ];
+
     public function __construct(
         EntityFactoryInterface $entityFactory,
         LoggerInterface $logger,
@@ -42,11 +50,12 @@ class Grid extends SearchResult
                 '(SELECT COUNT(*) FROM %s c WHERE c.post_id = main_table.post_id AND c.status = 0)',
                 $this->getTable('zero_blog_comment')
             ))]);
-        $this->addFilterToMap('post_id', 'main_table.post_id')
-            ->addFilterToMap('title', 'main_table.title')
-            ->addFilterToMap('author_name', 'author.name')
-            ->addFilterToMap('updated_at', 'main_table.updated_at')
-            ->addFilterToMap('is_active', 'main_table.is_active');
+        // zero_blog_author shares url_key, is_active, image, meta_*, created_at and
+        // updated_at with the post table: unqualified, a filter on them is ambiguous.
+        foreach (self::POST_COLUMNS as $column) {
+            $this->addFilterToMap($column, 'main_table.' . $column);
+        }
+        $this->addFilterToMap('author_name', 'author.name');
 
         return $this;
     }

@@ -142,6 +142,24 @@ class Post extends AbstractDb
     }
 
     /**
+     * Active posts whose publish date falls in (after, until], both UTC.
+     *
+     * @return int[]
+     */
+    public function publishedBetween(string $afterUtc, string $untilUtc): array
+    {
+        $connection = $this->getConnection();
+
+        return array_map('intval', $connection->fetchCol(
+            $connection->select()
+                ->from($this->getMainTable(), ['post_id'])
+                ->where('is_active = 1')
+                ->where('published_at > ?', $afterUtc)
+                ->where('published_at <= ?', $untilUtc)
+        ));
+    }
+
+    /**
      * The visible post with this URL key in the store view, or null.
      */
     public function findVisibleId(string $urlKey, int $storeId, string $nowUtc): ?int

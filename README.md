@@ -22,6 +22,19 @@ Composer installs `zerofront/module-zero-core`, `zerofront/module-zero-banner`, 
 
 Part of [`zerofront/zero`](https://zerofront.dev), which installs the Zero theme and every Zero module at once.
 
+## Posts dated ahead
+
+A post shows once it is active and its publish date (UTC) has passed. Pages
+are cached, so the cron job `zero_blog_purge_scheduled_posts` (every five
+minutes, group `default`) cleans what such a post changes when its time
+comes: the blog lists, the post's page, the "From the blog" blocks of its
+products and the cached 404 page (the store's CMS No Route Page) its address
+answered before. It remembers its last run in the flag
+`zero_blog_publish_purge`; the first run looks back one hour. Without cron,
+these pages update when their cache expires.
+
+What changed in each release: [CHANGELOG.md](CHANGELOG.md).
+
 ## License
 
 OSL-3.0 or AFL-3.0, your choice: see `NOTICE.md`.
