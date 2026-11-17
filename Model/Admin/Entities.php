@@ -11,13 +11,12 @@ namespace Zero\Blog\Model\Admin;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
-use Magento\Framework\ObjectManagerInterface;
-use Zero\Blog\Model;
 
 /**
  * The blog's admin entities (posts, categories, tags, authors, comments):
- * their classes, id field and labels, and a factory for each. Shared by the
- * generic admin actions in Controller\Adminhtml\AbstractEntity.
+ * their id field and labels, and a model factory, a resource model and a
+ * collection factory for each (configured in di.xml). Shared by the generic
+ * admin actions in Controller\Adminhtml\AbstractEntity.
  */
 class Entities
 {
@@ -28,45 +27,53 @@ class Entities
     public const COMMENT = 'comment';
 
     private const MAP = [
-        self::POST => [Model\Post::class, Model\ResourceModel\Post::class, Model\ResourceModel\Post\Collection::class, 'post_id', 'Post', 'Posts'],
-        self::CATEGORY => [Model\Category::class, Model\ResourceModel\Category::class, Model\ResourceModel\Category\Collection::class, 'category_id', 'Category', 'Categories'],
-        self::TAG => [Model\Tag::class, Model\ResourceModel\Tag::class, Model\ResourceModel\Tag\Collection::class, 'tag_id', 'Tag', 'Tags'],
-        self::AUTHOR => [Model\Author::class, Model\ResourceModel\Author::class, Model\ResourceModel\Author\Collection::class, 'author_id', 'Author', 'Authors'],
-        self::COMMENT => [Model\Comment::class, Model\ResourceModel\Comment::class, Model\ResourceModel\Comment\Collection::class, 'comment_id', 'Comment', 'Comments'],
+        self::POST => ['post_id', 'Post', 'Posts'],
+        self::CATEGORY => ['category_id', 'Category', 'Categories'],
+        self::TAG => ['tag_id', 'Tag', 'Tags'],
+        self::AUTHOR => ['author_id', 'Author', 'Authors'],
+        self::COMMENT => ['comment_id', 'Comment', 'Comments'],
     ];
 
-    public function __construct(private readonly ObjectManagerInterface $objectManager)
-    {
+    /**
+     * @param object[] $factories Entity => the model's generated factory
+     * @param AbstractDb[] $resources Entity => its resource model
+     * @param object[] $collectionFactories Entity => its collection's generated factory
+     */
+    public function __construct(
+        private readonly array $factories = [],
+        private readonly array $resources = [],
+        private readonly array $collectionFactories = []
+    ) {
     }
 
     public function create(string $entity): AbstractModel
     {
-        return $this->objectManager->create(self::MAP[$entity][0]);
+        return $this->factories[$entity]->create();
     }
 
     public function resource(string $entity): AbstractDb
     {
-        return $this->objectManager->get(self::MAP[$entity][1]);
+        return $this->resources[$entity];
     }
 
     public function collection(string $entity): AbstractCollection
     {
-        return $this->objectManager->create(self::MAP[$entity][2]);
+        return $this->collectionFactories[$entity]->create();
     }
 
     public function idField(string $entity): string
     {
-        return self::MAP[$entity][3];
+        return self::MAP[$entity][0];
     }
 
     public function label(string $entity): string
     {
-        return self::MAP[$entity][4];
+        return self::MAP[$entity][1];
     }
 
     public function pluralLabel(string $entity): string
     {
-        return self::MAP[$entity][5];
+        return self::MAP[$entity][2];
     }
 
     /**

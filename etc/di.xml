@@ -81,4 +81,30 @@
             </argument>
         </arguments>
     </type>
+    <!-- The admin entities: their model and collection factories (generated) and resource models. -->
+    <type name="Zero\Blog\Model\Admin\Entities">
+        <arguments>
+            <argument name="factories" xsi:type="array">
+                <item name="post" xsi:type="object">Zero\Blog\Model\PostFactory</item>
+                <item name="category" xsi:type="object">Zero\Blog\Model\CategoryFactory</item>
+                <item name="tag" xsi:type="object">Zero\Blog\Model\TagFactory</item>
+                <item name="author" xsi:type="object">Zero\Blog\Model\AuthorFactory</item>
+                <item name="comment" xsi:type="object">Zero\Blog\Model\CommentFactory</item>
+            </argument>
+            <argument name="resources" xsi:type="array">
+                <item name="post" xsi:type="object">Zero\Blog\Model\ResourceModel\Post</item>
+                <item name="category" xsi:type="object">Zero\Blog\Model\ResourceModel\Category</item>
+                <item name="tag" xsi:type="object">Zero\Blog\Model\ResourceModel\Tag</item>
+                <item name="author" xsi:type="object">Zero\Blog\Model\ResourceModel\Author</item>
+                <item name="comment" xsi:type="object">Zero\Blog\Model\ResourceModel\Comment</item>
+            </argument>
+            <argument name="collectionFactories" xsi:type="array">
+                <item name="post" xsi:type="object">Zero\Blog\Model\ResourceModel\Post\CollectionFactory</item>
+                <item name="category" xsi:type="object">Zero\Blog\Model\ResourceModel\Category\CollectionFactory</item>
+                <item name="tag" xsi:type="object">Zero\Blog\Model\ResourceModel\Tag\CollectionFactory</item>
+                <item name="author" xsi:type="object">Zero\Blog\Model\ResourceModel\Author\CollectionFactory</item>
+                <item name="comment" xsi:type="object">Zero\Blog\Model\ResourceModel\Comment\CollectionFactory</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

@@ -33,6 +33,8 @@ answered before. It remembers its last run in the flag
 `zero_blog_publish_purge`; the first run looks back one hour. Without cron,
 these pages update when their cache expires.
 
+AI Assistant tools for this module: the bridge module `Zero_BlogAiAssistant` (needs Zero_AiAssistant too).
+
 What changed in each release: [CHANGELOG.md](CHANGELOG.md).
 
 ## License
